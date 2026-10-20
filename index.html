@@ -1,0 +1,450 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CraveCo - Sign In</title>
+
+    <link rel="stylesheet" href="https://pyscript.net/releases/2023.11.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2023.11.1/core.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="shortcut icon" type="image/png" href="logo.png">
+
+    <style>
+        :root {
+            --bg-dark: #0A0A0C;
+            --card-bg: #141419;
+            --input-bg: #1C1C24;
+            --border-color: #2D2D3A;
+            --brand-red: #E50914;
+            --brand-orange: #FF5722;
+            --brand-white: #FFFFFF;
+            --text-muted: #9E9EA9;
+            --accent-gradient: linear-gradient(135deg, #E50914 0%, #FF5722 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--brand-white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-image:
+                radial-gradient(circle at 15% 15%, rgba(229, 9, 20, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(255, 87, 34, 0.12) 0%, transparent 45%);
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 1050px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+
+        .hero-section {
+            position: relative;
+            background:
+                linear-gradient(180deg, rgba(10, 10, 12, 0.6) 0%, rgba(10, 10, 12, 0.9) 100%),
+                url('https://images.unsplash.com/photo-1568901346375-23c9450c58bd?auto=format&fit=crop&w=1000&q=80') center/cover;
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            display: block;
+            border-radius: 30px;
+        }
+
+        .brand-name {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--brand-white);
+        }
+
+        .brand-name span {
+            color: var(--brand-orange);
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(229, 9, 20, 0.15);
+            color: var(--brand-orange);
+            border: 1px solid rgba(255, 87, 34, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .hero-title {
+            font-size: 36px;
+            line-height: 1.2;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .hero-title span {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .hero-footer {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+
+        .form-section {
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .form-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .form-subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .form-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--brand-white);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .helper-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--brand-orange);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .helper-link:hover {
+            text-decoration: underline;
+        }
+
+        .input-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .left-icon {
+            position: absolute;
+            left: 14px;
+            color: var(--text-muted);
+            width: 18px;
+            height: 18px;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 13px 44px 13px 42px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--brand-white);
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input::placeholder {
+            color: #777783;
+        }
+
+        .form-input:focus {
+            border-color: var(--brand-orange);
+            box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.12);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 14px 0 22px;
+            font-size: 13px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .checkbox-container input {
+            accent-color: var(--brand-orange);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 10px;
+            color: var(--brand-white);
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .status-box {
+            margin-top: 18px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .status-box.error {
+            display: block;
+            background: rgba(229, 9, 20, 0.15);
+            border: 1px solid rgba(229, 9, 20, 0.4);
+            color: #f87171;
+        }
+
+        .status-box.success {
+            display: block;
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            color: #4ade80;
+        }
+
+
+        @media (max-width: 900px) {
+            body {
+                padding: 16px;
+            }
+
+            .wrapper {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+            }
+
+            .hero-section {
+                display: none;
+            }
+
+            .form-section {
+                padding: 38px 30px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .form-section {
+                padding: 28px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <div class="hero-section">
+
+            <div class="brand-logo">
+                <img src="logo.png" alt="CraveCo Logo">
+            </div>
+
+            <div>
+                <span class="hero-tag">🔥 Fresh &amp; Fast Online Delivery</span>
+
+                <h1 class="hero-title">
+                    Satisfy your <span>cravings</span> instantly.
+                </h1>
+
+                <p class="hero-desc">
+                    
+                </p>
+            </div>
+
+            <div class="hero-footer">
+                &copy; 2026 CraveCo Food Services. All rights reserved.
+            </div>
+        </div>
+
+        <div class="form-section">
+
+            <h2 class="form-title">Welcome Back!</h2>
+
+            <p class="form-subtitle">
+                Sign in to access your saved orders &amp; rewards.
+            </p>
+
+            <div class="form-group">
+                <div class="label-row">
+                    <label for="login-email" class="form-label">
+                        Email Address
+                    </label>
+                </div>
+
+                <div class="input-box">
+                    <span class="left-icon">
+                        <i data-lucide="mail"></i>
+                    </span>
+
+                    <input
+                        type="email"
+                        id="login-email"
+                        class="form-input"
+                        placeholder="foodie@craveco.com"
+                        autocomplete="email">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="label-row">
+                    <label for="login-pass" class="form-label">
+                        Password
+                    </label>
+
+                    <a href="#"
+                       class="helper-link"
+                       py-click="handle_forgot_password">
+                        Forgot Password?
+                    </a>
+                </div>
+
+                <div class="input-box">
+                    <span class="left-icon">
+                        <i data-lucide="lock"></i>
+                    </span>
+
+                    <input
+                        type="password"
+                        id="login-pass"
+                        class="form-input"
+                        placeholder="Enter your password"
+                        autocomplete="current-password">
+
+                    <span class="toggle-password"
+                          py-click="toggle_password"
+                          role="button"
+                          tabindex="0"
+                          aria-label="Toggle password visibility">
+                        <i data-lucide="eye" id="toggle-pass-icon"></i>
+                    </span>
+                </div>
+            </div>
+
+            <label class="checkbox-container">
+                <input type="checkbox" id="remember-me">
+                Remember my account
+            </label>
+
+            <button class="submit-btn" py-click="handle_login">
+                Sign In &amp; Start Craving ➔
+            </button>
+
+            <div class="footer-link">
+                New to CraveCo?
+                <a href="register.html" class="helper-link">
+                    Create an Account
+                </a>
+            </div>
+
+            <div id="status-output" class="status-box"></div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+    <script type="py" src="./main.py"></script>
+</body>
+</html>
