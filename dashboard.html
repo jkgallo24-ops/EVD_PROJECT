@@ -1,0 +1,887 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CraveCo - Online Food Service Portal</title>
+
+    <link rel="stylesheet" href="https://pyscript.net/releases/2023.11.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2023.11.1/core.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="shortcut icon" type="image/png" href="logo.png">
+    
+    <style>
+        :root {
+            --bg-dark: #0A0A0C;
+            --card-bg: #141419;
+            --input-bg: #1C1C24;
+            --border-color: #2D2D3A;
+            --brand-red: #E50914;
+            --brand-orange: #FF5722;
+            --brand-white: #FFFFFF;
+            --text-muted: #9E9EA9;
+            --accent-gradient: linear-gradient(135deg, #E50914 0%, #FF5722 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--brand-white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background-image:
+                radial-gradient(circle at 15% 15%, rgba(229,9,20,.12) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(255,87,34,.12) 0%, transparent 45%);
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 1240px;
+            min-height: 700px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px -15px rgba(0,0,0,.8);
+        }
+
+        .hero-section {
+            position: relative;
+            background: #0A0A0C;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .promo-video-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .promo-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(10,10,12,.82) 0%,
+                rgba(10,10,12,.96) 100%
+            );
+            z-index: 2;
+        }
+
+        .hero-section > * {
+            position: relative;
+            z-index: 3;
+        }
+
+        /* CraveCo Logo */
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .brand-logo img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            display: block;
+            border-radius: 20px;
+        }
+
+        .brand-name {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--brand-white);
+        }
+
+        .brand-name span {
+            color: var(--brand-orange);
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(229,9,20,.15);
+            color: var(--brand-orange);
+            border: 1px solid rgba(255,87,34,.3);
+            padding: 6px 14px;
+            border-radius: 22px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .hero-title {
+            font-size: 36px;
+            line-height: 1.15;
+            font-weight: 800;
+            margin-bottom: 14px;
+        }
+
+        .hero-title span {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .about-us-box {
+            background: rgba(28,28,36,.85);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 16px 20px;
+            backdrop-filter: blur(10px);
+            margin-top: 10px;
+        }
+
+        .about-us-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--brand-orange);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .about-us-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .biz-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 11px;
+        }
+
+        .biz-item {
+            background: rgba(20,20,25,.6);
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,.05);
+        }
+
+        .biz-item strong {
+            color: var(--brand-white);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .form-section {
+            padding: 36px 40px;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            position: relative;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 18px;
+            color: var(--brand-white);
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            transition: opacity .2s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .submit-btn:hover {
+            opacity: .92;
+        }
+
+        .cart-btn {
+            width: 100%;
+            padding: 8px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            color: var(--brand-white);
+            font-weight: 700;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .cart-btn:hover {
+            border-color: var(--brand-orange);
+            color: var(--brand-orange);
+        }
+
+        .cancel-btn {
+            width: 100%;
+            padding: 8px;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 11px;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        .cancel-btn:hover {
+            color: var(--brand-white);
+            border-color: var(--brand-orange);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .category-container {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .category-container::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .category-container::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        .category-tab {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all .2s ease;
+        }
+
+        .category-tab.active,
+        .category-tab:hover {
+            background: var(--brand-orange);
+            color: var(--brand-white);
+            border-color: var(--brand-orange);
+        }
+
+        .scrollable-menu {
+            max-height: 440px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .scrollable-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scrollable-menu::-webkit-scrollbar-track {
+            background: var(--input-bg);
+            border-radius: 4px;
+        }
+
+        .scrollable-menu::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .food-card {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            min-width: 0;
+            transition: transform .2s ease, border-color .2s ease;
+        }
+
+        .food-card:hover {
+            border-color: rgba(255,87,34,.5);
+            transform: translateY(-2px);
+        }
+
+        .food-info {
+            padding: 10px;
+        }
+
+        .food-name {
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .food-price {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .food-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .menu-img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-select,
+        .card-input {
+            width: 100%;
+            padding: 8px 10px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--brand-white);
+            font-size: 11px;
+            outline: none;
+            margin-bottom: 6px;
+        }
+
+        .card-select:focus,
+        .card-input:focus {
+            border-color: var(--brand-orange);
+        }
+
+        .cart-icon-btn {
+            position: relative;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            color: var(--brand-white);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .cart-icon-btn:hover {
+            border-color: var(--brand-orange);
+        }
+
+        .cart-count-badge {
+            background: var(--brand-red);
+            color: white;
+            border-radius: 50%;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 4px;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .status-box {
+            margin: 10px 0;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            display: none;
+        }
+
+        .status-box.error {
+            display: block;
+            background: rgba(229, 9, 20, 0.15);
+            border: 1px solid rgba(229, 9, 20, 0.4);
+            color: #f87171;
+        }
+
+        .status-box.success {
+            display: block;
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            color: #4ade80;
+        }
+
+        @media (max-width: 950px) {
+            body {
+                padding: 12px;
+                align-items: flex-start;
+            }
+
+            .wrapper {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .hero-section {
+                display: none;
+            }
+
+            .form-section {
+                padding: 24px 20px;
+            }
+
+            .scrollable-menu {
+                max-height: none;
+                overflow: visible;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-section {
+                padding: 18px 12px;
+            }
+
+            .food-grid {
+                gap: 9px;
+            }
+
+            .food-name {
+                font-size: 12px;
+            }
+
+            .submit-btn {
+                font-size: 11px;
+            }
+
+            .food-info {
+                padding: 8px;
+            }
+
+            .cart-icon-btn {
+                padding: 7px 9px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrapper">
+
+    <div class="hero-section" id="left-hero-container">
+
+        <video autoplay muted loop playsinline class="promo-video-bg">
+            <source src="promo.mp4" type="video/mp4">
+        </video>
+
+        <div class="promo-overlay"></div>
+
+        <div>
+            <div class="brand-logo">
+                <img src="logo.png" alt="CraveCo Logo">
+            </div>
+
+            <span class="hero-tag">🔥 Direct Kitchen &amp; Express Delivery</span>
+
+            <h1 class="hero-title">
+                Satisfy your <span>cravings</span> instantly.
+            </h1>
+
+            <div class="about-us-box">
+                <div class="about-us-title">
+                    <span>📖 About CraveCo</span>
+                </div>
+
+                <p class="about-us-desc">
+                    CraveCo is an independent, student-centric comfort food
+                    kitchen based in Cebu City. We operate our own physical
+                    kitchen and direct online store to serve fresh,
+                    high-quality comfort meals.
+                </p>
+
+                <div class="biz-grid">
+                    <div class="biz-item">
+                        <strong>🛍️ Offerings</strong>
+                        Burgers, Wings, Fries, Rings, Sisig &amp; Drinks
+                    </div>
+
+                    <div class="biz-item">
+                        <strong>🚀 Services</strong>
+                        Direct Prep, In-Store Pickup &amp; Delivery
+                    </div>
+
+                    <div class="biz-item">
+                        <strong>📍 Location</strong>
+                        Main Kitchen, Cebu City, Philippines
+                    </div>
+
+                    <div class="biz-item">
+                        <strong>🕒 Hours</strong>
+                        Mon - Sun: 10:00 AM - 10:00 PM
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="font-size:11px;color:var(--text-muted);margin-top:14px;">
+            &copy; 2026 CraveCo Food Services. All rights reserved.
+        </div>
+    </div>
+
+    <div class="form-section">
+
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;">
+            <div>
+                <h2 style="font-size:20px;font-weight:800;">
+                    Deliver to <span style="color:var(--brand-orange);">Cebu City</span> 📍
+                </h2>
+                <p style="color:var(--text-muted);font-size:12px;" id="welcome-user-subtitle">
+                    Ready for your meal?
+                </p>
+            </div>
+
+            <div style="display:flex;gap:10px;align-items:center;">
+                <a href="cart.html" class="cart-icon-btn">
+                    <i data-lucide="shopping-cart" style="width:18px;height:18px;"></i>
+                    <span class="cart-count-badge" id="cart-badge-count">0</span>
+                </a>
+
+                <a href="#" py-click="handle_logout" class="submit-btn"
+                   style="width:auto;padding:8px 14px;font-size:12px;">
+                    Sign Out
+                </a>
+            </div>
+        </div>
+
+        <div id="dash-status" class="status-box"></div>
+
+        <div class="category-container">
+            <button class="category-tab active" onclick="filterCategory('all', this)">All Items</button>
+            <button class="category-tab" onclick="filterCategory('burgers', this)">Burgers 🍔</button>
+            <button class="category-tab" onclick="filterCategory('wings', this)">Chicken Wings 🍗</button>
+            <button class="category-tab" onclick="filterCategory('fries', this)">Fries &amp; Rings 🍟</button>
+            <button class="category-tab" onclick="filterCategory('sisig', this)">Sisig 🍳</button>
+            <button class="category-tab" onclick="filterCategory('desserts', this)">Desserts 🍰</button>
+            <button class="category-tab" onclick="filterCategory('drinks', this)">Drinks 🧋</button>
+        </div>
+
+        <div class="scrollable-menu">
+            <div class="food-grid">
+
+                <div class="food-card category-burgers">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80"
+                         alt="Double Crave Smash" class="menu-img">
+
+                    <div class="food-info">
+                        <div class="food-name">Double Crave Smash</div>
+                        <div class="food-price">25 mins • ₱249</div>
+
+                        <div id="btn-container-1" class="food-actions">
+                            <button class="submit-btn" py-click="open_card_options" data-id="1">Order Now</button>
+                            <button class="cart-btn" py-click="add_to_cart" data-item="Double Crave Smash" data-price="249">Add to Cart</button>
+                        </div>
+
+                        <div id="options-container-1" class="hidden" style="margin-top:6px;">
+                            <select id="pay-1" class="card-select">
+                                <option value="COD">Cash on Delivery</option>
+                                <option value="GCash">GCash</option>
+                                <option value="Card">Credit/Debit Card</option>
+                            </select>
+                            <input type="text" id="phone-1" class="card-input" placeholder="Contact Number...">
+                            <input type="text" id="address-1" class="card-input" placeholder="Delivery Address...">
+                            <input type="text" id="note-1" class="card-input" placeholder="Special Request...">
+                            <button class="submit-btn" py-click="confirm_card_order" data-item="Double Crave Smash" data-price="₱249" data-id="1">Confirm Order ➔</button>
+                            <button class="cancel-btn" py-click="cancel_card_options" data-id="1">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card category-burgers">
+                    <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?auto=format&fit=crop&w=400&q=80"
+                         alt="Cheesy Bacon Burger" class="menu-img">
+
+                    <div class="food-info">
+                        <div class="food-name">Cheesy Bacon Burger</div>
+                        <div class="food-price">20 mins • ₱229</div>
+
+                        <div id="btn-container-2" class="food-actions">
+                            <button class="submit-btn" py-click="open_card_options" data-id="2">Order Now</button>
+                            <button class="cart-btn" py-click="add_to_cart" data-item="Cheesy Bacon Burger" data-price="229">Add to Cart</button>
+                        </div>
+
+                        <div id="options-container-2" class="hidden" style="margin-top:6px;">
+                            <select id="pay-2" class="card-select">
+                                <option value="COD">Cash on Delivery</option>
+                                <option value="GCash">GCash</option>
+                                <option value="Card">Credit/Debit Card</option>
+                            </select>
+                            <input type="text" id="phone-2" class="card-input" placeholder="Contact Number...">
+                            <input type="text" id="address-2" class="card-input" placeholder="Delivery Address...">
+                            <input type="text" id="note-2" class="card-input" placeholder="Special Request...">
+                            <button class="submit-btn" py-click="confirm_card_order" data-item="Cheesy Bacon Burger" data-price="₱229" data-id="2">Confirm Order ➔</button>
+                            <button class="cancel-btn" py-click="cancel_card_options" data-id="2">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card category-wings">
+                    <img src="https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=400&q=80"
+                         alt="Garlic Butter Wings" class="menu-img">
+
+                    <div class="food-info">
+                        <div class="food-name">Garlic Butter Wings</div>
+                        <div class="food-price">20 mins • ₱199</div>
+
+                        <div id="btn-container-3" class="food-actions">
+                            <button class="submit-btn" py-click="open_card_options" data-id="3">Order Now</button>
+                            <button class="cart-btn" py-click="add_to_cart" data-item="Garlic Butter Wings" data-price="199">Add to Cart</button>
+                        </div>
+
+                        <div id="options-container-3" class="hidden" style="margin-top:6px;">
+                            <select id="pay-3" class="card-select">
+                                <option value="COD">Cash on Delivery</option>
+                                <option value="GCash">GCash</option>
+                                <option value="Card">Credit/Debit Card</option>
+                            </select>
+                            <input type="text" id="phone-3" class="card-input" placeholder="Contact Number...">
+                            <input type="text" id="address-3" class="card-input" placeholder="Delivery Address...">
+                            <input type="text" id="note-3" class="card-input" placeholder="Special Request...">
+                            <button class="submit-btn" py-click="confirm_card_order" data-item="Garlic Butter Wings" data-price="₱199" data-id="3">Confirm Order ➔</button>
+                            <button class="cancel-btn" py-click="cancel_card_options" data-id="3">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card category-wings">
+                    <img src="https://images.unsplash.com/photo-1608039829572-78524f79c4c7?auto=format&fit=crop&w=400&q=80"
+                         alt="Spicy Buffalo Wings" class="menu-img">
+
+                    <div class="food-info">
+                        <div class="food-name">Spicy Buffalo Wings</div>
+                        <div class="food-price">20 mins • ₱199</div>
+
+                        <div id="btn-container-4" class="food-actions">
+                            <button class="submit-btn" py-click="open_card_options" data-id="4">Order Now</button>
+                            <button class="cart-btn" py-click="add_to_cart" data-item="Spicy Buffalo Wings" data-price="199">Add to Cart</button>
+                        </div>
+
+                        <div id="options-container-4" class="hidden" style="margin-top:6px;">
+                            <select id="pay-4" class="card-select">
+                                <option value="COD">Cash on Delivery</option>
+                                <option value="GCash">GCash</option>
+                                <option value="Card">Credit/Debit Card</option>
+                            </select>
+                            <input type="text" id="phone-4" class="card-input" placeholder="Contact Number...">
+                            <input type="text" id="address-4" class="card-input" placeholder="Delivery Address...">
+                            <input type="text" id="note-4" class="card-input" placeholder="Special Request...">
+                            <button class="submit-btn" py-click="confirm_card_order" data-item="Spicy Buffalo Wings" data-price="₱199" data-id="4">Confirm Order ➔</button>
+                            <button class="cancel-btn" py-click="cancel_card_options" data-id="4">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card category-fries">
+                    <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=400&q=80"
+                         alt="Crave Mega Fries" class="menu-img">
+
+                    <div class="food-info">
+                        <div class="food-name">Crave Mega Fries</div>
+                        <div class="food-price">15 mins • ₱129</div>
+
+                        <div id="btn-container-5" class="food-actions">
+                            <button class="submit-btn" py-click="open_card_options" data-id="5">Order Now</button>
+                            <button class="cart-btn" py-click="add_to_cart" data-item="Crave Mega Fries" data-price="129">Add to Cart</button>
+                        </div>
+
+                        <div id="options-container-5" class="hidden" style="margin-top:6px;">
+                            <select id="pay-5" class="card-select">
+                                <option value="COD">Cash on Delivery</option>
+                                <option value="GCash">GCash</option>
+                                <option value="Card">Credit/Debit Card</option>
+                            </select>
+                            <input type="text" id="phone-5" class="card-input" placeholder="Contact Number...">
+                            <input type="text" id="address-5" class="card-input" placeholder="Delivery Address...">
+                            <input type="text" id="note-5" class="card-input" placeholder="Special Request...">
+                            <button class="submit-btn" py-click="confirm_card_order" data-item="Crave Mega Fries" data-price="₱129" data-id="5">Confirm Order ➔</button>
+                            <button class="cancel-btn" py-click="cancel_card_options" data-id="5">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card category-fries">
+                    <img src="https://images.unsplash.com/photo-1639024471283-03518883512d?auto=format&fit=crop&w=400&q=80"
+                         alt="Crispy Onion Rings" class="menu-img">
+
+                    <div class="food-info">
+                        <div class="food-name">Crispy Onion Rings</div>
+                        <div class="food-price">15 mins • ₱99</div>
+
+                        <div id="btn-container-6" class="food-actions">
+                            <button class="submit-btn" py-click="open_card_options" data-id="6">Order Now</button>
+                            <button class="cart-btn" py-click="add_to_cart" data-item="Crispy Onion Rings" data-price="99">Add to Cart</button>
+                        </div>
+
+                        <div id="options-container-6" class="hidden" style="margin-top:6px;">
+                            <select id="pay-6" class="card-select">
+                                <option value="COD">Cash on Delivery</option>
+                                <option value="GCash">GCash</option>
+                                <option value="Card">Credit/Debit Card</option>
+                            </select>
+                            <input type="text" id="phone-6" class="card-input" placeholder="Contact Number...">
+                            <input type="text" id="address-6" class="card-input" placeholder="Delivery Address...">
+                            <input type="text" id="note-6" class="card-input" placeholder="Special Request...">
+                            <button class="submit-btn" py-click="confirm_card_order" data-item="Crispy Onion Rings" data-price="₱99" data-id="6">Confirm Order ➔</button>
+                            <button class="cancel-btn" py-click="cancel_card_options" data-id="6">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card category-sisig">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=80"
+                         alt="Sizzling Pork Sisig" class="menu-img">
+
+                    <div class="food-info">
+                        <div class="food-name">Sizzling Pork Sisig</div>
+                        <div class="food-price">25 mins • ₱210</div>
+
+                        <div id="btn-container-7" class="food-actions">
+                            <button class="submit-btn" py-click="open_card_options" data-id="7">Order Now</button>
+                            <button class="cart-btn" py-click="add_to_cart" data-item="Sizzling Pork Sisig" data-price="210">Add to Cart</button>
+                        </div>
+
+                        <div id="options-container-7" class="hidden" style="margin-top:6px;">
+                            <select id="pay-7" class="card-select">
+                                <option value="COD">Cash on Delivery</option>
+                                <option value="GCash">GCash</option>
+                                <option value="Card">Credit/Debit Card</option>
+                            </select>
+                            <input type="text" id="phone-7" class="card-input" placeholder="Contact Number...">
+                            <input type="text" id="address-7" class="card-input" placeholder="Delivery Address...">
+                            <input type="text" id="note-7" class="card-input" placeholder="Special Request...">
+                            <button class="submit-btn" py-click="confirm_card_order" data-item="Sizzling Pork Sisig" data-price="₱210" data-id="7">Confirm Order ➔</button>
+                            <button class="cancel-btn" py-click="cancel_card_options" data-id="7">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card category-desserts">
+                    <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=400&q=80"
+                         alt="Molten Lava Cake" class="menu-img">
+
+                    <div class="food-info">
+                        <div class="food-name">Molten Lava Cake</div>
+                        <div class="food-price">20 mins • ₱159</div>
+
+                        <div id="btn-container-8" class="food-actions">
+                            <button class="submit-btn" py-click="open_card_options" data-id="8">Order Now</button>
+                            <button class="cart-btn" py-click="add_to_cart" data-item="Molten Lava Cake" data-price="159">Add to Cart</button>
+                        </div>
+
+                        <div id="options-container-8" class="hidden" style="margin-top:6px;">
+                            <select id="pay-8" class="card-select">
+                                <option value="COD">Cash on Delivery</option>
+                                <option value="GCash">GCash</option>
+                                <option value="Card">Credit/Debit Card</option>
+                            </select>
+                            <input type="text" id="phone-8" class="card-input" placeholder="Contact Number...">
+                            <input type="text" id="address-8" class="card-input" placeholder="Delivery Address...">
+                            <input type="text" id="note-8" class="card-input" placeholder="Special Request...">
+                            <button class="submit-btn" py-click="confirm_card_order" data-item="Molten Lava Cake" data-price="₱159" data-id="8">Confirm Order ➔</button>
+                            <button class="cancel-btn" py-click="cancel_card_options" data-id="8">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-card category-drinks">
+                    <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=400&q=80"
+                         alt="Iced Caramel Macchiato" class="menu-img">
+
+                    <div class="food-info">
+                        <div class="food-name">Iced Caramel Macchiato</div>
+                        <div class="food-price">10 mins • ₱110</div>
+
+                        <div id="btn-container-9" class="food-actions">
+                            <button class="submit-btn" py-click="open_card_options" data-id="9">Order Now</button>
+                            <button class="cart-btn" py-click="add_to_cart" data-item="Iced Caramel Macchiato" data-price="110">Add to Cart</button>
+                        </div>
+
+                        <div id="options-container-9" class="hidden" style="margin-top:6px;">
+                            <select id="pay-9" class="card-select">
+                                <option value="COD">Cash on Delivery</option>
+                                <option value="GCash">GCash</option>
+                                <option value="Card">Credit/Debit Card</option>
+                            </select>
+                            <input type="text" id="phone-9" class="card-input" placeholder="Contact Number...">
+                            <input type="text" id="address-9" class="card-input" placeholder="Delivery Address...">
+                            <input type="text" id="note-9" class="card-input" placeholder="Special Request...">
+                            <button class="submit-btn" py-click="confirm_card_order" data-item="Iced Caramel Macchiato" data-price="₱110" data-id="9">Confirm Order ➔</button>
+                            <button class="cancel-btn" py-click="cancel_card_options" data-id="9">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    lucide.createIcons();
+
+    function filterCategory(category, btnElement) {
+        const tabs = document.querySelectorAll('.category-tab');
+
+        tabs.forEach(tab => tab.classList.remove('active'));
+        btnElement.classList.add('active');
+
+        const cards = document.querySelectorAll('.food-card');
+
+        cards.forEach(card => {
+            if (
+                category === 'all' ||
+                card.classList.contains(`category-${category}`)
+            ) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+<script type="py" src="./main.py"></script>
+</body>
+</html>
