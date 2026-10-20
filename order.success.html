@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CraveCo - Order Success</title>
+    
+    <link rel="stylesheet" href="https://pyscript.net/releases/2023.11.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2023.11.1/core.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="shortcut icon" type="image/png" href="logo.png">
+    
+    <style>
+        :root {
+            --bg-dark: #0A0A0C;
+            --card-bg: #141419;
+            --input-bg: #1C1C24;
+            --border-color: #2D2D3A;
+            --brand-red: #E50914;
+            --brand-orange: #FF5722;
+            --brand-white: #FFFFFF;
+            --text-muted: #9E9EA9;
+            --accent-gradient: linear-gradient(135deg, #E50914 0%, #FF5722 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--brand-white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-image:
+                radial-gradient(circle at 15% 15%, rgba(229, 9, 20, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(255, 87, 34, 0.12) 0%, transparent 45%);
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 1050px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        @media (max-width: 900px) {
+            .wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-section {
+                display: none;
+            }
+        }
+
+        .hero-section {
+            position: relative;
+            background:
+                linear-gradient(180deg, rgba(10, 10, 12, 0.6) 0%, rgba(10, 10, 12, 0.9) 100%),
+                url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1000&q=80') center/cover;
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 14px;
+            display: block;
+        }
+
+        .brand-name {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--brand-white);
+        }
+
+        .brand-name span {
+            color: var(--brand-orange);
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .hero-title {
+            font-size: 36px;
+            line-height: 1.2;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .hero-title span {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .form-section {
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 10px;
+            color: var(--brand-white);
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.92;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+
+            .form-section {
+                padding: 28px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <div class="hero-section">
+            <div class="brand-logo">
+                <img src="logo.png" alt="CraveCo Logo" class="logo-image">
+            </div>
+
+            <div>
+                <span class="hero-tag">✓ Order Confirmed</span>
+                <h1 class="hero-title">Your food is on the <span>way</span>!</h1>
+                <p class="hero-desc">
+                    Our kitchen has received your order and our rider is getting ready for dispatch.
+                </p>
+            </div>
+
+            <div style="font-size: 12px; color: var(--text-muted);">
+                &copy; 2026 CraveCo Food Services. All rights reserved.
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div style="text-align: center; padding: 10px 0;">
+
+                <div style="width: 56px; height: 56px; background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; color: #4ade80;">
+                    <i data-lucide="check" style="width: 28px; height: 28px;"></i>
+                </div>
+
+                <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 6px;">
+                    Order Placed Successfully!
+                </h2>
+
+                <p id="success-subtitle" style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">
+                    Your delicious meal is being prepared.
+                </p>
+
+                <div style="background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 16px; text-align: left; margin-bottom: 20px;">
+
+                    <div style="font-size: 11px; font-weight: 700; color: var(--brand-orange); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;">
+                        Order Summary
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 4px;">
+                        <span id="success-item-name">Loading your order…</span>
+                        <span id="success-item-price" style="color: var(--brand-orange);"></span>
+                    </div>
+
+                    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">
+                        Payment:
+                        <span id="success-payment" style="color: var(--brand-white);">COD</span>
+                    </div>
+
+                    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">
+                        Note:
+                        <span id="success-notes" style="color: var(--brand-white);">None</span>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 8px; margin-top: 8px;">
+                        <span>Estimated Delivery:</span>
+                        <span style="color: var(--brand-white); font-weight: 600;">20 - 25 mins</span>
+                    </div>
+                </div>
+
+                <a href="dashboard.html" class="submit-btn">← Back to Menu</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+    <script type="py" src="./main.py"></script>
+</body>
+</html>
